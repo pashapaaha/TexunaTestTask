@@ -1,18 +1,20 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataRow {
-    public Map<String, String> columns;
+    List<DataColumn> columns;
 
-    public DataRow(){
-        columns = new HashMap<>();
+    DataRow(){
+        columns = new ArrayList<>();
     }
 
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("[ ");
-        for(Map.Entry<String, String> entry: columns.entrySet()){
-            string.append(entry.getKey() + " -> " + entry.getValue() + ", ");
+        for(DataColumn dr: columns){
+            string.append(dr.getTitle() + " -> " + dr.getValue() + ", ");
         }
         string.delete(string.length()-2, string.length()-1);
         string.append("]");

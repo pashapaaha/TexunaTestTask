@@ -16,12 +16,12 @@ public class Rows {
         try {
             dataBase = new ArrayList<>();
             List<String[]> allRows = getDataFromFile(fileName);
-            List<String> keys = struct.getKeysArray();
+
             for(String[] strings: allRows) {
                 DataRow dr = new DataRow();
                 int i = 0;
-                for (String item: keys) {
-                    dr.columns.put(item, strings[i]);
+                for (SettingsColumn item: struct.columns) {
+                    dr.columns.add(new DataColumn(item.getTitle(), strings[i]));
                     i++;
                 }
                 dataBase.add(dr);
@@ -37,7 +37,7 @@ public class Rows {
         return dataBase.get(index);
     }
 
-    public void print(){
+    void print(){
         for (DataRow dr: dataBase)
             System.out.println(dr);
     }

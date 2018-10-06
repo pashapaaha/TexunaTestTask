@@ -8,12 +8,10 @@ public class BaseStruct {
     private int width;
     private int height;
 
-    private Map<String, Integer> columns;
-    private List<String> keyArray;
+    List<SettingsColumn> columns;
 
     BaseStruct(String xmlFileName) {
-        columns = new HashMap<>();
-        keyArray = new ArrayList<>();
+        columns = new ArrayList<>();
         try (StaxStreamProcessor processor = new StaxStreamProcessor(Files.newInputStream(Paths.get(xmlFileName)))) {
             initSize(processor);
             initColumns(processor);
@@ -22,8 +20,8 @@ public class BaseStruct {
             System.err.println(e.getMessage());
         }
 
-        for(Map.Entry<String, Integer> entry: columns.entrySet()){
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        for(SettingsColumn sc: columns){
+            System.out.println(sc.getTitle() + " -> " + sc.getWidth());
         }
 
     }
@@ -44,10 +42,6 @@ public class BaseStruct {
         this.height = height;
     }
 
-    public List<String> getKeysArray(){
-        return keyArray;
-    }
-
 
     private void initSize(StaxStreamProcessor processor) throws XMLStreamException {
         if(processor.startElement("width", "page")){
@@ -65,11 +59,10 @@ public class BaseStruct {
             int width = -1;
             if(processor.startElement("title", "column"))
                 title = processor.getText();
-            keyArray.add(title);
             if(processor.startElement("width", "column"))
                 width = Integer.parseInt(processor.getText());
             if(title != null && width != -1){
-                columns.put(title, width);
+                columns.add(new SettingsColumn(title, width));
             }
         }
     }
