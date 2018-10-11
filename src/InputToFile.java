@@ -12,10 +12,15 @@ class InputToFile {
 
     void generateReport(){
         StringBuilder stringBuilder = new StringBuilder();
+
+        ReportTitle title = new ReportTitle();
+        title.generateLine(struct);
+        stringBuilder.append(title);
+
         int heightPosition = struct.getHeight();
         for (DataRow row: rows.dataBase) {
 
-            ReportLine line = new ReportLine();
+            ReportRow line = new ReportRow();
             line.generateLine(row, struct);
             if((heightPosition - line.getHeight()) > 0){
 
@@ -25,6 +30,8 @@ class InputToFile {
             else{
                 stringBuilder.append("~\n");
                 heightPosition = struct.getHeight();
+                stringBuilder.append(title);
+                heightPosition -= title.getHeight();
 
                 stringBuilder.append(line);
                 heightPosition -= line.getHeight();

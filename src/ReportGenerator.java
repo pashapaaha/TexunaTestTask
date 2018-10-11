@@ -6,7 +6,7 @@ public class ReportGenerator {
         BaseStruct bs = new BaseStruct(xmlFileName);
 
         Rows rows = new Rows(tsvFileName, bs);
-//        ReportLine line = new ReportLine();
+//        ReportRow line = new ReportRow();
 //        line.generateLine(rows.getItem(4));
 //        System.out.println(line);
 //        rows.print();

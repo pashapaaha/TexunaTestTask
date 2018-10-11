@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReportTitle extends ReportLine{
+
+    void generateLine(BaseStruct bs){
+        StringBuilder lineBuilder = new StringBuilder();
+        List<StringBuilder> values = new ArrayList<>();
+
+        for (SettingsColumn sc: bs.columns) {
+            values.add(new StringBuilder(sc.getTitle()));
+        }
+
+        while (!listIsEmpty(values)) {
+            lineBuilder.append("| ");
+            for (int i = 0; i < values.size(); i++) {
+
+                int columnWidth = bs.columns.get(i).getWidth();
+                if(values.get(i).toString().isEmpty()){
+                    for (int k = 0; k < columnWidth; k++)  //???
+                        lineBuilder.append(' ');
+                    lineBuilder.append(" | ");
+                    continue;
+                }
+
+                if (values.get(i).length() < columnWidth) {
+                    int diff = columnWidth - values.get(i).length();
+                    lineBuilder.append(values.get(i));
+                    for (int k = 0; k < diff; k++)  //???
+                        lineBuilder.append(' ');
+                    values.set(i, new StringBuilder());  //???
+                } else {
+                    int lastIndex = findDividerLastIndex(values.get(i), columnWidth);
+                    if (lastIndex != -1 && lastIndex != 0) {
+                        lastIndex++;
+                        lineBuilder.append(values.get(i).substring(0, lastIndex));
+                        int diff = columnWidth - lastIndex;
+                        for (int k = 0; k < diff; k++)  //???
+                            lineBuilder.append(' ');
+                        values.get(i).delete(0, lastIndex);
+                    } else {
+                        lineBuilder.append(values.get(i).substring(0, columnWidth));
+                        values.get(i).delete(0, columnWidth);
+                    }
+                }
+
+                lineBuilder.append(" | ");
+            }
+            lineBuilder.append("\n");
+            height++;
+        }
+
+        line = lineBuilder.toString();
+    }
+}
