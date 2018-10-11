@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class Rows {
 
-    private List<DataRow> dataBase;
+    List<DataRow> dataBase;
 
     Rows(String fileName, BaseStruct struct) {
         try {

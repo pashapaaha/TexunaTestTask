@@ -6,23 +6,29 @@ public class ReportLine {
     private int height = 1;
     private String line;
 
-    public ReportLine(BaseStruct baseStruct) {
-
-    }
-
 //    private String[] splitValue(String value){
 //        return value.split("\\W");
 //    }
 
-    void generateLine(BaseStruct baseStruct, DataRow row){
+    public int getHeight() {
+        return height;
+    }
 
-        StringBuilder lineBuilder = new StringBuilder("");
+    void generateLine(DataRow row, BaseStruct bs){
+
+        StringBuilder lineBuilder = new StringBuilder();
         List<StringBuilder> values = new ArrayList<>();
 
         for (DataColumn dc: row.columns) {
             values.add(new StringBuilder(dc.getValue()));
         }
-        while (listIsEmpty(values)) {
+        int width = bs.getWidth();
+        for(int i = 0; i < width; i++)
+            lineBuilder.append("-");
+        lineBuilder.append("\n");
+        height++;
+        while (!listIsEmpty(values)) {
+            lineBuilder.append("| ");
             for (int i = 0; i < values.size(); i++) {
 
                 int columnWidth = row.columns.get(i).getSetting().getWidth();
@@ -41,7 +47,8 @@ public class ReportLine {
                     values.set(i, new StringBuilder());  //???
                 } else {
                     int lastIndex = findDividerLastIndex(values.get(i), columnWidth);
-                    if (lastIndex != -1) {
+                    if (lastIndex != -1 && lastIndex != 0) {
+                        lastIndex++;
                         lineBuilder.append(values.get(i).substring(0, lastIndex));
                         int diff = columnWidth - lastIndex;
                         for (int k = 0; k < diff; k++)  //???
@@ -64,7 +71,7 @@ public class ReportLine {
     }
 
     private int findDividerLastIndex(StringBuilder stringBuilder, int endIndex){
-        return stringBuilder.substring(0, endIndex).lastIndexOf("\\W");
+        return stringBuilder.substring(0, endIndex).lastIndexOf(" "); // Нужны регулярки
     }
 
     private boolean listIsEmpty(List<StringBuilder> values){
@@ -75,4 +82,8 @@ public class ReportLine {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return line;
+    }
 }
