@@ -36,7 +36,6 @@ class InputToFile {
                 stringBuilder.append(line);
                 heightPosition -= line.getHeight();
             }
-            System.out.println(line.getHeight());
         }
         System.out.println(stringBuilder);
     }

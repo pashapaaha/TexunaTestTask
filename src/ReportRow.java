@@ -22,17 +22,15 @@ public class ReportRow extends ReportLine{
 
                 int columnWidth = row.columns.get(i).getSetting().getWidth();
                 if(values.get(i).toString().isEmpty()){
-                    for (int k = 0; k < columnWidth; k++)  //???
-                        lineBuilder.append(' ');
+                    addSpaces(lineBuilder, columnWidth);
                     lineBuilder.append(" | ");
                     continue;
                 }
 
-                if (values.get(i).length() < columnWidth) {
+                if (values.get(i).length() <= columnWidth) {
                     int diff = columnWidth - values.get(i).length();
                     lineBuilder.append(values.get(i));
-                    for (int k = 0; k < diff; k++)  //???
-                        lineBuilder.append(' ');
+                    addSpaces(lineBuilder, diff);
                     values.set(i, new StringBuilder());  //???
                 } else {
                     int lastIndex = findDividerLastIndex(values.get(i), columnWidth);
@@ -40,8 +38,7 @@ public class ReportRow extends ReportLine{
                         lastIndex++;
                         lineBuilder.append(values.get(i).substring(0, lastIndex));
                         int diff = columnWidth - lastIndex;
-                        for (int k = 0; k < diff; k++)  //???
-                            lineBuilder.append(' ');
+                        addSpaces(lineBuilder, diff);
                         values.get(i).delete(0, lastIndex);
                     } else {
                         lineBuilder.append(values.get(i).substring(0, columnWidth));
@@ -54,8 +51,6 @@ public class ReportRow extends ReportLine{
             lineBuilder.append("\n");
             height++;
         }
-
-
         line = lineBuilder.toString();
     }
 
