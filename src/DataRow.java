@@ -14,7 +14,7 @@ public class DataRow {
     public String toString() {
         StringBuilder string = new StringBuilder("[ ");
         for(DataColumn dr: columns){
-            string.append(dr.getTitle() + " -> " + dr.getValue() + ", ");
+            string.append(dr.getSetting().getTitle() + " -> " + dr.getValue() + ", ");
         }
         string.delete(string.length()-2, string.length()-1);
         string.append("]");

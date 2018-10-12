@@ -1,18 +1,18 @@
 class DataColumn {
 
-    private String title;
+    private SettingsColumn setting;
     private String value;
 
-    String getTitle() {
-        return title;
+    SettingsColumn getSetting() {
+        return setting;
     }
 
     String getValue() {
         return value;
     }
 
-    DataColumn(String title, String value) {
-        this.title = title;
+    DataColumn(SettingsColumn setting, String value) {
+        this.setting = setting;
         this.value = value;
     }
 }
