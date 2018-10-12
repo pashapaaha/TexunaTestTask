@@ -1,13 +1,14 @@
+import java.io.*;
+
 class InputToFile {
 
     private BaseStruct struct;
     private Rows rows;
-    private String filename;
+    private String report;
 
-    InputToFile(BaseStruct baseStruct, Rows rows, String fileName) {
+    InputToFile(BaseStruct baseStruct, Rows rows) {
         this.struct = baseStruct;
         this.rows = rows;
-        this.filename = fileName;
     }
 
     void generateReport(){
@@ -37,7 +38,17 @@ class InputToFile {
                 heightPosition -= line.getHeight();
             }
         }
-        System.out.println(stringBuilder);
+        report = stringBuilder.toString();
+    }
+
+    void input(String fileName){
+        try {
+            try(BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "UTF16"))){
+                bufferedWriter.write(report);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
