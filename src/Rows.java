@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class Rows {
 
@@ -28,18 +26,8 @@ public class Rows {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
         }
 
-    }
-
-    public DataRow getItem(int index){
-        return dataBase.get(index);
-    }
-
-    void print(){
-        for (DataRow dr: dataBase)
-            System.out.println(dr);
     }
 
     private List<String[]> getDataFromFile(String fileName) throws IOException {

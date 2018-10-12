@@ -43,7 +43,8 @@ class InputToFile {
 
     void input(String fileName){
         try {
-            try(BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "UTF16"))){
+            try(BufferedWriter bufferedWriter = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(fileName), "UTF16"))){
                 bufferedWriter.write(report);
             }
         } catch (IOException e) {
