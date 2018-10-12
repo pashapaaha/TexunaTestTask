@@ -22,7 +22,6 @@ public class ReportLine {
         if(m.find())
             return m.start();
         return -1;
-//        return stringBuilder.substring(0, endIndex).lastIndexOf(" "); // Нужны регулярки
     }
 
     protected boolean listIsEmpty(List<StringBuilder> values){
@@ -34,7 +33,59 @@ public class ReportLine {
     }
 
     protected void addSpaces(StringBuilder sb, int spaceCount){
-        for (int i = 0; i < spaceCount; i++)  //???
-            sb.append(' ');
+        addRepeatedChar(sb, ' ', spaceCount);
+    }
+
+    protected void addRepeatedChar(StringBuilder sb, char c, int spaceCount){
+        for (int i = 0; i < spaceCount; i++)
+            sb.append(c);
+    }
+
+    protected void addDataInCellLine(StringBuilder lineBuilder, List<StringBuilder> values, int columnWidth, int index){
+        if (values.get(index).length() <= columnWidth) {
+            addShortDataInCellLine(lineBuilder, values, columnWidth, index);
+        } else {
+            int lastIndex = findDividerLastIndex(values.get(index), columnWidth);
+            if (lastIndex != -1 && lastIndex != 0) {
+                addDataWithSymbol(lineBuilder, values.get(index), columnWidth, lastIndex);
+            } else {
+                lineBuilder.append(values.get(index).substring(0, columnWidth));
+                values.get(index).delete(0, columnWidth);
+            }
+        }
+    }
+
+    private void addShortDataInCellLine(StringBuilder lineBuilder, List<StringBuilder> values, int columnWidth, int index){
+        int diff = columnWidth - values.get(index).length();
+        lineBuilder.append(values.get(index));
+        addSpaces(lineBuilder, diff);
+        values.set(index, new StringBuilder());
+    }
+
+    private void addDataWithSymbol(StringBuilder lineBuilder, StringBuilder values, int columnWidth, int lastIndex){
+        lastIndex++;
+        lineBuilder.append(values.substring(0, lastIndex));
+        int diff = columnWidth - lastIndex;
+        addSpaces(lineBuilder, diff);
+        values.delete(0, lastIndex);
+    }
+
+
+    protected void whileNotEmpty(StringBuilder lineBuilder, List<StringBuilder> values, List<Integer> widths){
+        while (!listIsEmpty(values)) {
+            lineBuilder.append("| ");
+            for (int i = 0; i < values.size(); i++) {
+                int columnWidth = widths.get(i);
+                if(values.get(i).toString().isEmpty()){
+                    addSpaces(lineBuilder, columnWidth);
+                    lineBuilder.append(" | ");
+                    continue;
+                }
+                addDataInCellLine(lineBuilder, values, columnWidth, i);
+                lineBuilder.append(" | ");
+            }
+            lineBuilder.append("\n");
+            height++;
+        }
     }
 }
