@@ -1,16 +1,13 @@
 public class ReportGenerator {
 
     public static void main(String[] args) {
-        String xmlFileName = "settings.xml";
-        String tsvFileName = "source-data.tsv";
-        BaseStruct bs = new BaseStruct(xmlFileName);
-
-        Rows rows = new Rows(tsvFileName, bs);
-//        ReportRow line = new ReportRow();
-//        line.generateLine(rows.getItem(4), bs);
-//        System.out.println(line);
-//        rows.print();
-        InputToFile input = new InputToFile(bs, rows, "hello");
+        String xmlFileName = args[0];
+        String tsvFileName = args[1];
+        String outFileName = args[2];
+        BaseStruct baseStruct = new BaseStruct(xmlFileName);
+        Rows rows = new Rows(tsvFileName, baseStruct);
+        InputToFile input = new InputToFile(baseStruct, rows);
         input.generateReport();
+        input.input(outFileName);
     }
 }

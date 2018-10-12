@@ -20,28 +20,15 @@ public class BaseStruct {
             System.err.println(e.getMessage());
         }
 
-        for(SettingsColumn sc: columns){
-            System.out.println(sc.getTitle() + " -> " + sc.getWidth());
-        }
-
     }
 
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
     }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
 
     private void initSize(StaxStreamProcessor processor) throws XMLStreamException {
         if(processor.startElement("width", "page")){
